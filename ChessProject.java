@@ -211,6 +211,8 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
         System.out.println("The landing coordinates are : "+"( "+landingX+","+landingY+")");
                 System.out.println("-----------------------------------------------");
 
+
+
 		/*
 			The only piece that has been enabled to move is a White Pawn...but we should really have this is a separate
 			method somewhere...how would this work.
@@ -222,10 +224,49 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
 			If a Pawn makes it to the top of the other side, the Pawn can turn into any other piece, for
 			demonstration purposes the Pawn here turns into a Queen.
 		*/
+if(pieceName.contains("Queen")){
+  validMove = true;
+}
 
-if(pieceName.equals("BlackQueen")){
-      validMove = true;
+else if(pieceName.contains("Knight")){
+  if(((landingX < 0)||(landingX > 7))||((landingY < 0)||landingY > 7)){
+    validMove = false;
+  }
+
+    else{
+      if(((landingX == startX+1) && (landingY == startY+2))||((landingX == startX-1) && (landingY ==
+      startY+2))||((landingX == startX+2) && (landingY == startY+1))||((landingX == startX-2) && (landingY ==
+      startX+1))||((landingX == startY+1) && (landingY == startY-2))||((landingX == startX-1) && (landingY ==
+      startY-2))||((landingX == startX+2) && (landingY == startY-1))||((landingX == startX-2) && (landingY ==
+      startY-1))){
+
+        if(piecePresent(e.getX(), (e.getY()))){
+          if(pieceName.contains("White")){
+            if(checkWhiteOponent(e.getX(), e.getY())){
+              validMove = true;
+            }
+            else{
+              validMove = false;
+            }
+          }
+          else{
+            if(checkBlackOponent(e.getX(), e.getY())){
+              validMove = true;
+            }
+            else{
+              validMove = false;
+            }
+          }
+        }
+      else{
+        validMove = true;
+        }
+      }
+      else{
+        validMove = false;
+      }
     }
+  }
 
 else if(pieceName.equals("BlackPawn")){
   if((startY == 6)&&(startX == landingX)&&(((startY-landingY)== 1)||(startY-landingY)== 2)){
@@ -320,6 +361,9 @@ else{
     }
   }*/
 
+else if(pieceName.equals("WhiteQueen")){
+  validMove = true;
+}
     else if(pieceName.equals("WhitePawn")){
 			if(startY == 1) /* if it starts at the orginal row*/
 			{
