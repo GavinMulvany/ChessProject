@@ -194,6 +194,7 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
         chessPiece.setVisible(false);
 		    Boolean success =false;
         Boolean promotion = false;
+        Boolean progression = false;
         Component c =  chessBoard.findComponentAt(e.getX(), e.getY());
 		    String tmp = chessPiece.getIcon().toString();
 		    String pieceName = tmp.substring(0, (tmp.length()-4));
@@ -221,7 +222,60 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
 			If a Pawn makes it to the top of the other side, the Pawn can turn into any other piece, for
 			demonstration purposes the Pawn here turns into a Queen.
 		*/
+
 if(pieceName.equals("BlackQueen")){
+      validMove = true;
+    }
+
+else if(pieceName.equals("BlackPawn")){
+  if((startY == 6)&&(startX == landingX)&&(((startY-landingY)== 1)||(startY-landingY)== 2)){
+
+    if(!piecePresent(e.getX(), e.getY())){
+
+      validMove = true;
+    }
+    else{
+      validMove = false;
+    }
+  }
+  else if((Math.abs(startX-landingX)==1)&&(((startY-landingY)==1))){
+    if(piecePresent(e.getX(), e.getY())){
+      if(checkBlackOponent(e.getX(),e.getY())){
+        validMove = true;
+        if(landingY == 0){
+          progression = true;
+        }
+      }
+      else{
+        validMove = false;
+      }
+    }
+    else{
+      validMove = false;
+    }
+  }
+
+else if((startY != 6)&&((startX == landingX)&&(((startY-landingY)== 1)))){
+
+  if(!piecePresent(e.getX(), e.getY())){
+    validMove = true;
+    if(landingY == 0){
+      progression = true;
+    }
+  }
+  else{
+    validMove = false;
+  }
+}
+else{
+  validMove = false;
+  }
+}
+
+
+
+
+/*if(pieceName.equals("BlackQueen")){
   validMove = true;
 }
 
@@ -248,7 +302,7 @@ if(pieceName.equals("BlackQueen")){
           }
         }
       }
-    else{//this is where the b pawn is making all subsequent moves.
+    else{//this is where the B pawn is making all subsequent moves.
 
       if(((yMovement==1))&&(startY > landingY)&&(xMovement == 0)){
         if(!piecePresent(e.getX(), e.getY())){
@@ -264,7 +318,7 @@ if(pieceName.equals("BlackQueen")){
         }
       }
     }
-  }
+  }*/
 
     else if(pieceName.equals("WhitePawn")){
 			if(startY == 1) /* if it starts at the orginal row*/
@@ -346,7 +400,18 @@ if(pieceName.equals("BlackQueen")){
 		    panels.add(pieces);
 		}
 		else{
-			if(success){
+
+      if(progression){
+        int location = 0 + (e.getX()/75);
+        if (c instanceof JLabel){
+          Container parent = c.getParent();
+          parent.remove(0);
+          pieces = new JLabel( new ImageIcon("BlackQueen.png"));
+          parent = (JPanel)chessBoard.getComponent(location);
+          parent.add(pieces);
+      }
+    }
+		else if(success){
 				int location = 56 + (e.getX()/75);
 				if (c instanceof JLabel){
 	            	Container parent = c.getParent();
@@ -355,13 +420,26 @@ if(pieceName.equals("BlackQueen")){
 					parent = (JPanel)chessBoard.getComponent(location);
 			    	parent.add(pieces);
 				}
-				else{
+			else{
 					Container parent = (Container)c;
 	            	pieces = new JLabel( new ImageIcon("WhiteQueen.png") );
 					parent = (JPanel)chessBoard.getComponent(location);
 			    	parent.add(pieces);
 				}
 			}
+
+
+        /*if(progression){
+          int loation = 0 + (e.getX()/75);
+          if (c instanceof JLabel){
+            Container parent = c.getParent();
+            parent.remove(0);
+            pieces = new JLabel( new ImageIcon("BlackQueen.png"));
+            parent = (JPanel)chessBoard.getComponent(location);
+  			    	parent.add(pieces);
+        }
+      }*/
+
 			else{
 				if (c instanceof JLabel){
 	            	Container parent = c.getParent();
